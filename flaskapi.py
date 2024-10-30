@@ -1,10 +1,8 @@
-"""Code for a flask API to Create, Read, Update, Delete users"""
 import os
 from flask import jsonify, request, Flask
 from flaskext.mysql import MySQL
 
 app = Flask(__name__)
-
 mysql = MySQL()
 
 # MySQL configurations
@@ -19,12 +17,11 @@ mysql.init_app(app)
 @app.route("/")
 def index():
     """Function to test the functionality of the API"""
-    return "Hello, world!"
+    return "Hello, world."
 
 
 @app.route("/create", methods=["POST"])
 def add_user():
-    """Function to create a user to the MySQL database"""
     json = request.json
     name = json["name"]
     email = json["email"]
@@ -40,7 +37,7 @@ def add_user():
             conn.commit()
             cursor.close()
             conn.close()
-            resp = jsonify("User created successfully!")
+            resp = jsonify("User created successfully")
             resp.status_code = 200
             return resp
         except Exception as exception:
@@ -48,10 +45,8 @@ def add_user():
     else:
         return jsonify("Please provide name, email and pwd")
 
-
 @app.route("/users", methods=["GET"])
 def users():
-    """Function to retrieve all users from the MySQL database"""
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -68,7 +63,6 @@ def users():
 
 @app.route("/user/<int:user_id>", methods=["GET"])
 def user(user_id):
-    """Function to get information of a specific user in the MSQL database"""
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
@@ -85,7 +79,6 @@ def user(user_id):
 
 @app.route("/update", methods=["POST"])
 def update_user():
-    """Function to update a user in the MYSQL database"""
     json = request.json
     name = json["name"]
     email = json["email"]
@@ -114,7 +107,6 @@ def update_user():
 
 @app.route("/delete/<int:user_id>")
 def delete_user(user_id):
-    """Function to delete a user from the MySQL database"""
     try:
         conn = mysql.connect()
         cursor = conn.cursor()
